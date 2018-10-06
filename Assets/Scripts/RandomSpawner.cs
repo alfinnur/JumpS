@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class RandomSpawner : MonoBehaviour {
 
+    public float colThickness = 4f;
     public float speed;
+    public float zPosition = 0f;
+
+    bool doSpawnObstacles = true;
     [SerializeField]
     float maxEnemys;
+
     float totalEnemyAvailable;
+    Vector2 screenSize;
+
     [SerializeField]
     GameObject targetSpawn, MainCharacter;
+
     Camera m_camera;
 
-    public float colThickness = 4f;
-    public float zPosition = 0f;
-    private Vector2 screenSize;
     // Use this for initialization
     void Start () {
         m_camera = Camera.main;
@@ -39,7 +44,7 @@ public class RandomSpawner : MonoBehaviour {
                 valPair.Value.localScale = new Vector3(colThickness, screenSize.y * 2, colThickness);
             else
             {
-                valPair.Value.localScale = new Vector3(screenSize.x * 2, colThickness, colThickness);
+                valPair.Value.localScale = new Vector3(screenSize.x * 8, colThickness, colThickness); //default *2
                 valPair.Value.tag = "bottom";
             }
 
@@ -53,7 +58,7 @@ public class RandomSpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (totalEnemyAvailable < maxEnemys)
+        if (totalEnemyAvailable < maxEnemys && doSpawnObstacles)
         {
             Vector3 spawnPosition = m_camera.ScreenToWorldPoint(new Vector3(Random.Range(10, Screen.width - 10), Screen.height, 10));
             GameObject newObj = Instantiate(targetSpawn, spawnPosition, Quaternion.identity) as GameObject;
@@ -66,5 +71,10 @@ public class RandomSpawner : MonoBehaviour {
     public void Regenerate()
     {
         totalEnemyAvailable--;
+    }
+
+    public void doSpawnObs(bool param)
+    {
+        doSpawnObstacles = param;
     }
 }

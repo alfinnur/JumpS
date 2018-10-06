@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
     Rigidbody2D rigidbody;
+    GameObject MainCamera;
     public float jumpY = 700.0f, jumpX = 700.0f;
     // Use this for initialization
     void Start()
@@ -27,5 +28,6 @@ public class Controller : MonoBehaviour {
             rigidbody.AddForce(new Vector2(jumpX, jumpY));
             Debug.Log(rigidbody.velocity);
         }
+
     }
 }
